@@ -47,7 +47,7 @@ const App = () => {
                     );
                 })
                 .catch((error) => {
-                    alert(`This contact has been deleted from server`);
+                    alert(`This contact has already been deleted from server`);
                     setPersons(
                         persons.filter((contact) => contact.id !== person.id)
                     );

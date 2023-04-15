@@ -1,0 +1,2 @@
+//GET https://young-ridge-39044.herokuapp.com/api/persons/asdadadad
+GET http://localhost:3001/api/persons/asdadadad

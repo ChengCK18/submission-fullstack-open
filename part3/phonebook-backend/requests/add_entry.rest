@@ -1,0 +1,10 @@
+//POST https://young-ridge-39044.herokuapp.com/api/persons
+
+POST http://localhost:3001/api/persons
+Content-Type:application/json
+
+
+{
+    "name": "Dan Androv",
+    "phoneNumber": "0153342aaa33"
+}

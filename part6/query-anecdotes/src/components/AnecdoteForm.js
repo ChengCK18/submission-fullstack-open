@@ -51,6 +51,16 @@ const AnecdoteForm = () => {
                         notificationDispatch({ type: "Reset" });
                     }, 5000);
                 },
+                onError: (error) => {
+                    console.log("biakk ", error);
+                    notificationDispatch({
+                        type: "Error",
+                        payload: error.response.data.error,
+                    });
+                    setTimeout(() => {
+                        notificationDispatch({ type: "Reset" });
+                    }, 5000);
+                },
             }
         );
     };

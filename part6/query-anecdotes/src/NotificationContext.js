@@ -25,7 +25,7 @@ export const NotificationContextProvider = (props) => {
     useEffect(() => {
         if (notification) {
             const timer = setTimeout(() => {
-                notificationDispatch({ type: "Clear" });
+                notificationDispatch({ type: "Reset" });
             }, 5000);
 
             return () => clearTimeout(timer); // cleanup

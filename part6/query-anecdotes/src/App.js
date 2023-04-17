@@ -5,7 +5,9 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNotificationDispatch } from "./NotificationContext";
 
 const App = () => {
-    const result = useQuery("anecdotes", getAnecdotes);
+    const result = useQuery("anecdotes", getAnecdotes, {
+        refetchOnWindowFocus: false,
+    });
     const queryClient = useQueryClient();
     const updateAnecdotesVotes = useMutation(updateAnecdotesVote);
     const notificationDispatch = useNotificationDispatch();
@@ -34,9 +36,6 @@ const App = () => {
                         type: "Success",
                         payload: `anecdote '${newAnecdote.content}' voted`,
                     });
-                    setTimeout(() => {
-                        notificationDispatch({ type: "Reset" });
-                    }, 5000);
                 },
             }
         );

@@ -7,17 +7,6 @@ const AnecdoteForm = () => {
     const queryClient = useQueryClient();
     const notificationDispatch = useNotificationDispatch();
 
-    // const showNotification = () => {
-    //     notificationDispatch({
-    //         type: "Success",
-    //         payload: "Anecdote successfully created.",
-    //     });
-
-    //     setTimeout(() => {
-    //         notificationDispatch({ type: "Reset" });
-    //     }, 5000);
-    // };
-
     const onCreate = (event) => {
         event.preventDefault();
         const content = event.target.anecdote.value;
@@ -47,19 +36,12 @@ const AnecdoteForm = () => {
                         type: "Success",
                         payload: "Anecdote successfully created.",
                     });
-                    setTimeout(() => {
-                        notificationDispatch({ type: "Reset" });
-                    }, 5000);
                 },
                 onError: (error) => {
-                    console.log("biakk ", error);
                     notificationDispatch({
                         type: "Error",
                         payload: error.response.data.error,
                     });
-                    setTimeout(() => {
-                        notificationDispatch({ type: "Reset" });
-                    }, 5000);
                 },
             }
         );

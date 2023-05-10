@@ -1,0 +1,142 @@
+query  {
+ allAuthors {
+   name
+ }
+}
+
+query  {
+ allAuthors {
+   born
+   name
+   bookCount
+
+ }
+}
+
+query{
+  allBooks {
+    title
+    author{
+      bookCount
+      name
+    }
+  }
+}
+query findPersonByName($author: String!){
+  allBooks(author:$author) {
+    title
+    genres
+  }
+}
+
+
+
+mutation($name: String!, $setBornTo: Int!){
+  editAuthor(name: $name, setBornTo: $setBornTo) {
+    name
+    born
+
+  }
+}
+
+query findPersonByName($author: String!,$genre: String!){
+  allBooks(author: $author,genre:$genre) {
+    title
+    genres
+  }
+}
+
+query findPersonByName(,$genre: String!){
+  allBooks(genre:$genre) {
+    title
+    genres
+  }
+}
+
+query findPersonByName($author: String!){
+  allBooks(author: $author) {
+    title
+    genres
+  }
+}
+
+query findPersonByName{
+  allBooks{
+    title
+    genres
+  }
+}
+
+mutation($title: String!, $author: String!, $published: Int!, $genres: [String!]!){
+  addBook(title: $title, author: $author, published: $published, genres: $genres) {
+    title
+
+  }
+}
+
+query  {
+ allAuthors {
+   born
+   name
+   bookCount
+
+ }
+}
+
+query{
+  allBooks {
+    title
+    author{
+      bookCount
+      name
+    }
+  }
+}
+
+
+query{
+  authorCount
+}
+query{
+  bookCount
+}
+
+
+
+mutation($username: String!, $favouriteGenre: String!){
+  createUser(username: $username, favouriteGenre: $favouriteGenre) {
+    username
+    favouriteGenre
+  }
+}
+
+mutation($loginUsername2: String!, $password: String!){
+  login(username: $loginUsername2, password: $password) {
+    value
+  }
+}
+
+query  {
+ allAuthors {
+   born
+   name
+   bookCount
+
+ }
+}
+mutation($name: String!, $setBornTo: Int!){
+  editAuthor(name: $name, setBornTo: $setBornTo) {
+    name
+    born
+
+  }
+}
+
+
+query{
+  me {
+    username
+    id
+    favouriteGenre
+  }
+}

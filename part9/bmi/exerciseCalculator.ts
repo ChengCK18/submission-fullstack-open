@@ -1,5 +1,5 @@
-import { execiseCalcParseArgs } from "./utils";
-interface exerciseResult {
+// import { execiseCalcParseArgs } from "./utils";
+export interface exerciseResult {
     periodLength: number;
     trainingDays: number;
     success: boolean;
@@ -9,7 +9,7 @@ interface exerciseResult {
     average: number;
 }
 
-const exerciseCalculator = (
+export const exerciseCalculator = (
     dailyNumbers: number[],
     target: number
 ): exerciseResult | string => {
@@ -49,13 +49,13 @@ const exerciseCalculator = (
     };
 };
 
-try {
-    const { userExercise, userTarget } = execiseCalcParseArgs(process.argv);
-    console.log(exerciseCalculator(userExercise, userTarget));
-} catch (error: any) {
-    let errorMessage = "Something bad happened.";
-    if (error instanceof Error) {
-        errorMessage += " Error: " + error.message;
-    }
-    console.log(errorMessage);
-}
+// try {
+//     const { userExercise, userTarget } = execiseCalcParseArgs(process.argv);
+//     console.log(exerciseCalculator(userExercise, userTarget));
+// } catch (error) {
+//     let errorMessage = "Something bad happened.";
+//     if (error instanceof Error) {
+//         errorMessage += " Error: " + error.message;
+//     }
+//     console.log(errorMessage);
+// }

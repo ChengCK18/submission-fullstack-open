@@ -1,5 +1,5 @@
 // import { bmiParseArgs } from "./utils";
-export const bmiCalculator = (height: Number, weight: Number) => {
+export const bmiCalculator = (height: number, weight: number) => {
     if (typeof height === "number" && typeof weight === "number") {
         const heightInMeter = height / 100;
         const bmi = weight / heightInMeter ** 2;

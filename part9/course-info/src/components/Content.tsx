@@ -1,15 +1,17 @@
-import { CoursePartsList } from "../types";
-
-const Content = (props: CoursePartsList) => {
+import { CoursePartListProps } from "../types";
+import Part from "./Part";
+const Content = (props: CoursePartListProps) => {
+    console.log(props.courseParts);
     return (
         <div>
             {props.courseParts.map((item) => (
                 <p key={item.name}>
-                    {item.name} {item.exerciseCount}
+                    <Part individualCourse={item} />
                 </p>
             ))}
         </div>
     );
+    // return <div></div>;
 };
 
 export default Content;

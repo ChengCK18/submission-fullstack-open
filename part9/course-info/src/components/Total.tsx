@@ -1,17 +1,19 @@
-// import { CoursePartsList } from "../types";
+import { CoursePartListProps } from "../types";
 
-const Total = (props: any) => {
-    // return (
-    //     <div>
-    //         <p>
-    //             Number of exercises{" "}
-    //             {props.courseParts.reduce(
-    //                 (carry, part) => carry + part.exerciseCount,
-    //                 0
-    //             )}
-    //         </p>
-    //     </div>
-    // );
-    return <div></div>;
+const Total = (props: CoursePartListProps) => {
+    return (
+        <div>
+            <br />
+            <p>
+                <b>
+                    Number of exercises{" "}
+                    {props.courseParts.reduce(
+                        (carry, part) => carry + part.exerciseCount,
+                        0
+                    )}
+                </b>
+            </p>
+        </div>
+    );
 };
 export default Total;

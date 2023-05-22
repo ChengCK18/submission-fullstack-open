@@ -9,7 +9,7 @@ export interface CoursePartBase {
 
 export interface CoursePartDescription extends CoursePartBase {
     description: string;
-    kind: "basic" | "background";
+    kind: "basic" | "background" | "special"; //only these kinds can have descriptions
 }
 
 export interface CoursePartBasic extends CoursePartDescription {
@@ -26,10 +26,16 @@ export interface CoursePartGroup extends CoursePartBase {
     kind: "group";
 }
 
+export interface CoursePartSpecial extends CoursePartDescription {
+    requirements: string[];
+    kind: "special";
+}
+
 export type CoursePart =
     | CoursePartBasic
     | CoursePartGroup
-    | CoursePartBackground;
+    | CoursePartBackground
+    | CoursePartSpecial;
 
 export interface CoursePartListProps {
     courseParts: CoursePart[];

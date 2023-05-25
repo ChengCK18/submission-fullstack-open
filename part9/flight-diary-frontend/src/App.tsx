@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { NonSensitiveDiaryEntry } from "./types";
 import diaryService from "./services/diaryServices";
 import Diaries from "./components/Diaries";
+import DiaryForm from "./components/DiaryForm";
+
 const App = () => {
-    const [diaries, setDiaries] = useState<NonSensitiveDiaryEntry[]>();
+    const [diaries, setDiaries] = useState<NonSensitiveDiaryEntry[]>([]);
     const [notification, setNotification] = useState<string>("");
     useEffect(() => {
         diaryService
@@ -23,8 +25,10 @@ const App = () => {
         }
         return <div>Retrieving data from server...</div>;
     }
+
     return (
         <div>
+            <DiaryForm diaries={diaries} setDiaries={setDiaries} />
             <Diaries diariesList={diaries} />
         </div>
     );

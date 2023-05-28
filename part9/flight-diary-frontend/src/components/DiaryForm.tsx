@@ -66,7 +66,7 @@ const DiaryForm = ({
                                     onChange={(e) => {
                                         setDate(e.target.value);
                                     }}
-                                    type="text"
+                                    type="date"
                                     placeholder="YYYY-MM-DD"
                                 />
                             </td>
@@ -75,26 +75,91 @@ const DiaryForm = ({
                             <td className="ui header">Visibility</td>
                             <td>
                                 <input
-                                    onChange={(e) => {
-                                        setVisibility(
-                                            e.target.value as Visibility
-                                        ); //type assert, to check onsubmit
-                                    }}
-                                    type="text"
-                                    placeholder="poor/ok/good/great"
+                                    type="radio"
+                                    id="visibility1"
+                                    name="visibility"
+                                    value="poor"
+                                    onChange={() =>
+                                        setVisibility(Visibility.Poor)
+                                    }
                                 />
+                                <label htmlFor="visibility1">poor</label>
+                                <input
+                                    type="radio"
+                                    id="visibility2"
+                                    name="visibility"
+                                    value="ok"
+                                    onChange={() =>
+                                        setVisibility(Visibility.Ok)
+                                    }
+                                />
+                                <label htmlFor="visibility2">ok</label>
+                                <input
+                                    type="radio"
+                                    id="visibility3"
+                                    name="visibility"
+                                    value="good"
+                                    onChange={() =>
+                                        setVisibility(Visibility.Good)
+                                    }
+                                />
+                                <label htmlFor="visibility3">good</label>
+
+                                <input
+                                    type="radio"
+                                    id="visibility4"
+                                    name="visibility"
+                                    value="great"
+                                    onChange={() =>
+                                        setVisibility(Visibility.Great)
+                                    }
+                                />
+                                <label htmlFor="visibility4">great</label>
                             </td>
                         </tr>
                         <tr>
                             <td className="ui header">Weather</td>
                             <td>
                                 <input
-                                    onChange={(e) => {
-                                        setWeather(e.target.value as Weather); //type assert, to check onsubmit
-                                    }}
-                                    type="text"
-                                    placeholder="windy/stormy/cloudy/rainy/sunny"
+                                    type="radio"
+                                    id="weather1"
+                                    name="weather"
+                                    value="windy"
+                                    onChange={() => setWeather(Weather.Windy)}
                                 />
+                                <label htmlFor="weather1">windy</label>
+                                <input
+                                    type="radio"
+                                    id="weather2"
+                                    name="weather"
+                                    value="stormy"
+                                    onChange={() => setWeather(Weather.Stormy)}
+                                />
+                                <label htmlFor="weather2">stormy</label>
+                                <input
+                                    type="radio"
+                                    id="weather3"
+                                    name="weather"
+                                    value="cloudy"
+                                    onChange={() => setWeather(Weather.Cloudy)}
+                                />
+                                <label htmlFor="weather3">cloudy</label>
+                                <input
+                                    type="radio"
+                                    id="weather4"
+                                    name="weather"
+                                    value="rainy"
+                                    onChange={() => setWeather(Weather.Rainy)}
+                                />
+                                <label htmlFor="weather4">rainy</label>
+                                <input
+                                    type="radio"
+                                    id="weather5"
+                                    name="weather"
+                                    value="sunny"
+                                    onChange={() => setWeather(Weather.Sunny)}
+                                />
+                                <label htmlFor="weather5">sunny</label>
                             </td>
                         </tr>
                         <tr>

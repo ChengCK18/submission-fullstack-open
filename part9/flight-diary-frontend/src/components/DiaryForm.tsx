@@ -2,8 +2,13 @@ import { useState } from "react";
 import { Weather, Visibility } from "../types";
 import diaryService from "../services/diaryServices";
 import { DiariesFormProps } from "../types";
+import { AxiosError } from "axios";
 
-const DiaryForm = ({ diaries, setDiaries }: DiariesFormProps) => {
+const DiaryForm = ({
+    diaries,
+    setDiaries,
+    notificationAlert,
+}: DiariesFormProps) => {
     const [date, setDate] = useState<string>("");
     const [visibility, setVisibility] = useState<Visibility>();
     const [weather, setWeather] = useState<Weather>();
@@ -23,12 +28,28 @@ const DiaryForm = ({ diaries, setDiaries }: DiariesFormProps) => {
                     weather,
                     comment,
                 };
-                const response = await diaryService.addNewDiaryEntry(object);
-                const newDiariesList = [...diaries, response];
-                setDiaries(newDiariesList);
+                try {
+                    const response = await diaryService.addNewDiaryEntry(
+                        object
+                    );
+                    const newDiariesList = [...diaries, response];
+                    setDiaries(newDiariesList);
+                } catch (err: unknown) {
+                    if (err instanceof AxiosError) {
+                        if (err.response) {
+                            notificationAlert(err.response.data);
+                        }
+                    } else {
+                        notificationAlert("Woops, something went wrong");
+                    }
+                }
             } else {
-                alert("AHHHHHH");
+                notificationAlert(
+                    "Weather and Visibility field needs to follow pre-defined set of values"
+                );
             }
+        } else {
+            notificationAlert("You need to fill in all the entry field");
         }
     };
 
@@ -46,7 +67,7 @@ const DiaryForm = ({ diaries, setDiaries }: DiariesFormProps) => {
                                         setDate(e.target.value);
                                     }}
                                     type="text"
-                                    placeholder="date"
+                                    placeholder="YYYY-MM-DD"
                                 />
                             </td>
                         </tr>
@@ -60,7 +81,7 @@ const DiaryForm = ({ diaries, setDiaries }: DiariesFormProps) => {
                                         ); //type assert, to check onsubmit
                                     }}
                                     type="text"
-                                    placeholder="visibility"
+                                    placeholder="poor/ok/good/great"
                                 />
                             </td>
                         </tr>
@@ -72,7 +93,7 @@ const DiaryForm = ({ diaries, setDiaries }: DiariesFormProps) => {
                                         setWeather(e.target.value as Weather); //type assert, to check onsubmit
                                     }}
                                     type="text"
-                                    placeholder="weather"
+                                    placeholder="windy/stormy/cloudy/rainy/sunny"
                                 />
                             </td>
                         </tr>
@@ -84,7 +105,7 @@ const DiaryForm = ({ diaries, setDiaries }: DiariesFormProps) => {
                                         setComment(e.target.value);
                                     }}
                                     type="text"
-                                    placeholder="comment"
+                                    placeholder="I'm feeling awesome"
                                 />
                             </td>
                         </tr>

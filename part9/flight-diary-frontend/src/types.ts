@@ -7,6 +7,7 @@ export interface DiariesProps {
 export type DiariesFormProps = {
     diaries: NonSensitiveDiaryEntry[];
     setDiaries: Dispatch<SetStateAction<NonSensitiveDiaryEntry[]>>;
+    notificationAlert: (message: string) => void;
 };
 
 export interface DiaryPartProps {

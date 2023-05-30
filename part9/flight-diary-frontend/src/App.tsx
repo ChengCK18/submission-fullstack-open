@@ -1,26 +1,13 @@
-import { useEffect, useState } from "react";
-import { NonSensitiveDiaryEntry } from "./types";
 import "./App.css";
-import diaryService from "./services/diaryServices";
+import { useState } from "react";
 import Diaries from "./components/Diaries";
 import DiaryForm from "./components/DiaryForm";
+import { useQuery } from "react-query";
+import { getAllNonSensitiveDiaries } from "./services/diaryServices";
 
 const App = () => {
-    const [diaries, setDiaries] = useState<NonSensitiveDiaryEntry[]>([]);
     const [notification, setNotification] = useState<string>("");
-
-    useEffect(() => {
-        diaryService
-            .getAllNonSensitiveDiaries()
-            .then((nonSensiteResult) => {
-                console.log(nonSensiteResult);
-                setDiaries(nonSensiteResult);
-            })
-            .catch((error) => {
-                setNotification(error.message);
-            });
-    }, []);
-
+    const result = useQuery("diaries", getAllNonSensitiveDiaries);
     const notificationAlert = (message: string) => {
         setNotification(message);
         setTimeout(() => {
@@ -28,11 +15,14 @@ const App = () => {
         }, 5000);
     };
 
-    if (!diaries) {
-        if (notification) {
-            return <div>{notification}</div>;
-        }
-        return <div>Retrieving data from server...</div>;
+    if (result.isLoading) {
+        return <div>Retrieving list of diaries entries...</div>;
+    }
+
+    const diaries = result.data;
+
+    if (diaries === undefined) {
+        return <div>Something went wrong</div>;
     }
 
     return (
@@ -43,11 +33,7 @@ const App = () => {
                 <span className="errorText">{notification}</span>
             )}
 
-            <DiaryForm
-                diaries={diaries}
-                setDiaries={setDiaries}
-                notificationAlert={notificationAlert}
-            />
+            <DiaryForm notificationAlert={notificationAlert} />
             <Diaries diariesList={diaries} />
         </div>
     );

@@ -1,12 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
+// import { Dispatch, SetStateAction } from "react";
 
 export interface DiariesProps {
     diariesList: NonSensitiveDiaryEntry[];
 }
 
 export type DiariesFormProps = {
-    diaries: NonSensitiveDiaryEntry[];
-    setDiaries: Dispatch<SetStateAction<NonSensitiveDiaryEntry[]>>;
+    // setDiaries: Dispatch<SetStateAction<NonSensitiveDiaryEntry[]>>;
     notificationAlert: (message: string) => void;
 };
 

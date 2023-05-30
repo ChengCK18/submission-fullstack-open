@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { Weather, Visibility } from "../types";
-import diaryService from "../services/diaryServices";
 import { DiariesFormProps } from "../types";
 import { AxiosError } from "axios";
+import { useMutation, useQueryClient } from "react-query";
+import { addNewDiaryEntry } from "../services/diaryServices";
 
-const DiaryForm = ({
-    diaries,
-    setDiaries,
-    notificationAlert,
-}: DiariesFormProps) => {
+const DiaryForm = ({ notificationAlert }: DiariesFormProps) => {
     const [date, setDate] = useState<string>("");
     const [visibility, setVisibility] = useState<Visibility>();
     const [weather, setWeather] = useState<Weather>();
     const [comment, setComment] = useState<string>("");
+    const queryClient = useQueryClient();
+    const newDiaryMutation = useMutation(addNewDiaryEntry, {
+        onSuccess: () => {
+            queryClient.invalidateQueries("diaries");
+        },
+    });
 
     const addDiary = async (event: React.SyntheticEvent) => {
         event.preventDefault();
@@ -29,11 +32,9 @@ const DiaryForm = ({
                     comment,
                 };
                 try {
-                    const response = await diaryService.addNewDiaryEntry(
-                        object
-                    );
-                    const newDiariesList = [...diaries, response];
-                    setDiaries(newDiariesList);
+                    newDiaryMutation.mutate(object);
+                    setDate("");
+                    setComment("");
                 } catch (err: unknown) {
                     if (err instanceof AxiosError) {
                         if (err.response) {
@@ -66,6 +67,7 @@ const DiaryForm = ({
                                     onChange={(e) => {
                                         setDate(e.target.value);
                                     }}
+                                    value={date}
                                     type="date"
                                     placeholder="YYYY-MM-DD"
                                 />
@@ -170,6 +172,7 @@ const DiaryForm = ({
                                         setComment(e.target.value);
                                     }}
                                     type="text"
+                                    value={comment}
                                     placeholder="I'm feeling awesome"
                                 />
                             </td>

@@ -7,6 +7,22 @@ router.get("/", (_req, res) => {
     res.send(patientsService.getPatients());
 });
 
+router.get("/:id", (req, res) => {
+    console.log(req.params.id);
+    if (req.params.id) {
+        const result = patientsService.getSpecificPatient(req.params.id);
+
+        if (result !== undefined) {
+            result["entries"] = [];
+            res.send(result);
+        } else {
+            res.status(204).end();
+        }
+    }
+
+    res.status(400).end();
+});
+
 router.post("/", (req, res) => {
     try {
         const newPatientEntry = toNewPatientEntry(req.body);

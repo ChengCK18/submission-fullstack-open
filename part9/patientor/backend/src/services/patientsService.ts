@@ -12,9 +12,14 @@ const getPatients = (): NoSsnPatients[] => {
         id,
         name,
         dateOfBirth,
+        entries: [],
         gender,
         occupation,
     }));
+};
+
+const getSpecificPatient = (patientId: string) => {
+    return patients.find((pat) => pat.id === patientId);
 };
 
 const addPatient = (entry: NewPatient): PatientsType => {
@@ -30,4 +35,5 @@ const addPatient = (entry: NewPatient): PatientsType => {
 export default {
     getPatients,
     addPatient,
+    getSpecificPatient,
 };

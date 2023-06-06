@@ -35,7 +35,19 @@ const PatientInfo = () => {
     }
 
     if (patientInfo !== undefined) {
-        return <div>{patientInfo.name}</div>;
+        return (
+            <div>
+                <article>
+                    <p>Name:{patientInfo.name}</p>
+                </article>
+                <article>
+                    <p>SSN:{patientInfo.ssn}</p>
+                </article>
+                <article>
+                    <p>Occupation:{patientInfo.occupation}</p>
+                </article>
+            </div>
+        );
     } else {
         return <div>Loading...</div>;
     }

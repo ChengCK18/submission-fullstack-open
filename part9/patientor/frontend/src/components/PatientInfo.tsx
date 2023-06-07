@@ -1,8 +1,18 @@
 import { useMatch } from "react-router-dom";
-
-import patientService from "../services/patients";
 import { useEffect, useState } from "react";
 import { Patient } from "../types";
+import patientService from "../services/patients";
+
+import {
+    Box,
+    Table,
+    Button,
+    TableHead,
+    Typography,
+    TableCell,
+    TableRow,
+    TableBody,
+} from "@mui/material";
 
 const PatientInfo = () => {
     const [patientInfo, setPatientInfo] = useState<Patient | undefined>();
@@ -37,15 +47,32 @@ const PatientInfo = () => {
     if (patientInfo !== undefined) {
         return (
             <div>
-                <article>
-                    <p>Name:{patientInfo.name}</p>
-                </article>
-                <article>
-                    <p>SSN:{patientInfo.ssn}</p>
-                </article>
-                <article>
-                    <p>Occupation:{patientInfo.occupation}</p>
-                </article>
+                <Table>
+                    <TableRow>
+                        <TableCell variant="head">
+                            <b>Name</b>
+                        </TableCell>
+                        <TableCell>{patientInfo.name}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell variant="head">
+                            <b>Gender</b>
+                        </TableCell>
+                        <TableCell>{patientInfo.gender}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell variant="head">
+                            <b>SSN</b>
+                        </TableCell>
+                        <TableCell>{patientInfo.ssn}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell variant="head">
+                            <b>Occupation</b>
+                        </TableCell>
+                        <TableCell>{patientInfo.occupation}</TableCell>
+                    </TableRow>
+                </Table>
             </div>
         );
     } else {

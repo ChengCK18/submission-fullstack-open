@@ -2,17 +2,9 @@ import { useMatch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Patient } from "../types";
 import patientService from "../services/patients";
-
-import {
-    Box,
-    Table,
-    Button,
-    TableHead,
-    Typography,
-    TableCell,
-    TableRow,
-    TableBody,
-} from "@mui/material";
+import Divider from "@mui/material/Divider";
+import Chip from "@mui/material/Chip";
+import { Table, TableCell, TableRow, TableBody } from "@mui/material";
 
 const PatientInfo = () => {
     const [patientInfo, setPatientInfo] = useState<Patient | undefined>();
@@ -48,31 +40,56 @@ const PatientInfo = () => {
         return (
             <div>
                 <Table>
-                    <TableRow>
-                        <TableCell variant="head">
-                            <b>Name</b>
-                        </TableCell>
-                        <TableCell>{patientInfo.name}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell variant="head">
-                            <b>Gender</b>
-                        </TableCell>
-                        <TableCell>{patientInfo.gender}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell variant="head">
-                            <b>SSN</b>
-                        </TableCell>
-                        <TableCell>{patientInfo.ssn}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell variant="head">
-                            <b>Occupation</b>
-                        </TableCell>
-                        <TableCell>{patientInfo.occupation}</TableCell>
-                    </TableRow>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell variant="head">
+                                <b>Name</b>
+                            </TableCell>
+                            <TableCell>{patientInfo.name}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell variant="head">
+                                <b>Gender</b>
+                            </TableCell>
+                            <TableCell>{patientInfo.gender}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell variant="head">
+                                <b>SSN</b>
+                            </TableCell>
+                            <TableCell>{patientInfo.ssn}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell variant="head">
+                                <b>Occupation</b>
+                            </TableCell>
+                            <TableCell>{patientInfo.occupation}</TableCell>
+                        </TableRow>
+                    </TableBody>
                 </Table>
+                <br />
+                <br />
+                <br />
+                <Divider>
+                    <Chip label="ENTRIES" />
+                </Divider>
+
+                {patientInfo.entries.map((entry, index) => (
+                    <div key={index}>
+                        <div>
+                            <h4>
+                                <b>{entry.date}</b>
+                            </h4>
+                        </div>
+                        <div>{entry.description}</div>
+                        <div>
+                            {entry.diagnosisCodes?.map((diagnosis, index) => (
+                                <li key={`diag${index}`}>{diagnosis}</li>
+                            ))}
+                        </div>
+                        <Divider />
+                    </div>
+                ))}
             </div>
         );
     } else {

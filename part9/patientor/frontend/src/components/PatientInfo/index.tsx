@@ -1,18 +1,23 @@
 import { useMatch } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Patient } from "../types";
-import patientService from "../services/patients";
+import { Patient, Diagnoses } from "../../types";
+import patientService from "../../services/patients";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
 import { Table, TableCell, TableRow, TableBody } from "@mui/material";
 
 const PatientInfo = () => {
     const [patientInfo, setPatientInfo] = useState<Patient | undefined>();
+    const [diagnosesDesc, setDianosesDesc] = useState<
+        Diagnoses[] | undefined
+    >();
+
     const [notification, setNotification] = useState<string>();
     const match = useMatch("/:id");
 
     useEffect(() => {
         getPatientInfo();
+        getDiagnosesInit();
     }, []);
 
     const getPatientInfo = async () => {
@@ -29,6 +34,22 @@ const PatientInfo = () => {
             } catch (error) {
                 setNotification("Error: Server is offline :(");
             }
+        }
+    };
+
+    const getDiagnosesInit = async () => {
+        try {
+            const data = await patientService.getDiagnoses();
+            setDianosesDesc(data);
+        } catch (error) {}
+    };
+
+    const getDiagnosesDesc = (diagnosesCode: string) => {
+        const diag = diagnosesDesc?.find((item) => item.code === diagnosesCode);
+        if (diag) {
+            return diag.name;
+        } else {
+            return;
         }
     };
 
@@ -84,7 +105,9 @@ const PatientInfo = () => {
                         <div>{entry.description}</div>
                         <div>
                             {entry.diagnosisCodes?.map((diagnosis, index) => (
-                                <li key={`diag${index}`}>{diagnosis}</li>
+                                <li key={`diag${index}`}>
+                                    {diagnosis} {getDiagnosesDesc(diagnosis)}
+                                </li>
                             ))}
                         </div>
                         <Divider />

@@ -13,7 +13,6 @@ router.get("/:id", (req, res) => {
         const result = patientsService.getSpecificPatient(req.params.id);
 
         if (result !== undefined) {
-            result["entries"] = [];
             res.send(result);
         } else {
             res.status(204).end();

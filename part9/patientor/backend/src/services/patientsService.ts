@@ -1,5 +1,6 @@
 // import { PatientsType } from "../types";
-import patients from "../../data/patientsData";
+// import patients from "../../data/patientsData";
+import patients from "../../data/patients-full";
 import { NoSsnPatients, NewPatient, PatientsType } from "../types";
 
 import { v1 as uuid } from "uuid";
@@ -8,14 +9,16 @@ import { v1 as uuid } from "uuid";
 // };
 
 const getPatients = (): NoSsnPatients[] => {
-    return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
-        id,
-        name,
-        dateOfBirth,
-        entries: [],
-        gender,
-        occupation,
-    }));
+    return patients.map(
+        ({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+            id,
+            name,
+            dateOfBirth,
+            entries: entries,
+            gender,
+            occupation,
+        })
+    );
 };
 
 const getSpecificPatient = (patientId: string) => {

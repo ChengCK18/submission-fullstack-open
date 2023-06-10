@@ -4,7 +4,7 @@ interface EntryHealthCheckProps {
     entry: HealthCheckEntry;
 }
 
-const EntryHealthCheck = (props: EntryHealthCheckProps) => {
+const EntryHealthCheck: React.FC<EntryHealthCheckProps> = (props) => {
     const entry = props.entry;
     return <div>{entry.healthCheckRating}</div>;
 };

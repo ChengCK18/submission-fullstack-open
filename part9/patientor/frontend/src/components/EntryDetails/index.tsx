@@ -2,7 +2,15 @@ import { Entry } from "../../types";
 import EntryOccupationalHealthCare from "./EntryOccupationalHealthcare";
 import EntryHospitalEntry from "./EntryHospitalEntry";
 import EntryHealthCheck from "./EntryHealthCheck";
-const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
+
+interface EntryDetailsProps {
+    entry: Entry;
+    getDiagnosesDesc: (diagnosesCode: string) => string;
+}
+
+const EntryDetails: React.FC<EntryDetailsProps> = (props) => {
+    const entry = props.entry;
+
     const assertNever = (value: never): never => {
         throw new Error(
             `Unhandled discriminated union member: ${JSON.stringify(value)}`

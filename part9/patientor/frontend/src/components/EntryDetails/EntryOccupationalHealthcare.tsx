@@ -4,9 +4,9 @@ interface EntryOccupationalHealthCareProps {
     entry: OccupationalHealthcareEntry;
 }
 
-const EntryOccupationalHealthCare = (
-    props: EntryOccupationalHealthCareProps
-) => {
+const EntryOccupationalHealthCare: React.FC<
+    EntryOccupationalHealthCareProps
+> = (props) => {
     const entry = props.entry;
 
     return <div>{entry.employerName}</div>;

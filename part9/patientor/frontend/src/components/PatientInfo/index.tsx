@@ -56,7 +56,7 @@ const PatientInfo = () => {
         if (diag) {
             return diag.name;
         } else {
-            return;
+            return "NA";
         }
     };
 
@@ -103,27 +103,12 @@ const PatientInfo = () => {
                     <Chip label="ENTRIES" />
                 </Divider>
 
-                {/* {patientInfo.entries.map((entry, index) => (
-                    <div key={index}>
-                        <div>
-                            <h4>
-                                <b>{entry.date}</b>
-                            </h4>
-                        </div>
-                        <div>{entry.description}</div>
-                        <div>
-                            {entry.diagnosisCodes?.map((diagnosis, index) => (
-                                <li key={`diag${index}`}>
-                                    {diagnosis} {getDiagnosesDesc(diagnosis)}
-                                </li>
-                            ))}
-                        </div>
-                        <Divider />
-                    </div>
-                ))} */}
                 {patientInfo.entries.map((entry, index) => (
                     <div key={index}>
-                        <EntryDetails entry={entry} />
+                        <EntryDetails
+                            entry={entry}
+                            getDiagnosesDesc={getDiagnosesDesc}
+                        />
                     </div>
                 ))}
             </div>

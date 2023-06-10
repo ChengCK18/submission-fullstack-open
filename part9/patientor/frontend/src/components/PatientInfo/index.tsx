@@ -2,9 +2,16 @@ import { useMatch } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Patient, Diagnoses } from "../../types";
 import patientService from "../../services/patients";
-import Divider from "@mui/material/Divider";
-import Chip from "@mui/material/Chip";
-import { Table, TableCell, TableRow, TableBody } from "@mui/material";
+import {
+    Table,
+    TableCell,
+    TableRow,
+    TableBody,
+    Chip,
+    Divider,
+} from "@mui/material";
+
+import EntryDetails from "../EntryDetails";
 
 const PatientInfo = () => {
     const [patientInfo, setPatientInfo] = useState<Patient | undefined>();
@@ -58,6 +65,7 @@ const PatientInfo = () => {
     }
 
     if (patientInfo !== undefined) {
+        console.log(patientInfo.entries);
         return (
             <div>
                 <Table>
@@ -95,7 +103,7 @@ const PatientInfo = () => {
                     <Chip label="ENTRIES" />
                 </Divider>
 
-                {patientInfo.entries.map((entry, index) => (
+                {/* {patientInfo.entries.map((entry, index) => (
                     <div key={index}>
                         <div>
                             <h4>
@@ -111,6 +119,11 @@ const PatientInfo = () => {
                             ))}
                         </div>
                         <Divider />
+                    </div>
+                ))} */}
+                {patientInfo.entries.map((entry, index) => (
+                    <div key={index}>
+                        <EntryDetails entry={entry} />
                     </div>
                 ))}
             </div>

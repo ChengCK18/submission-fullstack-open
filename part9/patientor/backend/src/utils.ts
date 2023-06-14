@@ -1,5 +1,9 @@
 import { NewPatient, Gender } from "./types";
-import { NewPatientRecordEntry, DiagnosesType } from "./types";
+import {
+    NewPatientRecordEntry,
+    DiagnosesType,
+    HealthCheckRating,
+} from "./types";
 
 const isString = (text: unknown): text is string => {
     return typeof text === "string" || text instanceof String;
@@ -37,7 +41,7 @@ const parseGender = (gender: unknown): Gender => {
     return gender;
 };
 
-const toNewPatientEntry = (object: unknown): NewPatient => {
+export const toNewPatientEntry = (object: unknown): NewPatient => {
     if (!object || typeof object !== "object") {
         throw new Error("object is not defined");
     }
@@ -62,7 +66,8 @@ const toNewPatientEntry = (object: unknown): NewPatient => {
     }
     throw new Error("Incorrect data: some fields are missing");
 };
-export default toNewPatientEntry;
+
+//Parsing for patient record entry of 3 different types
 
 const parseDescription = (description: unknown): string => {
     if (!description || !isString(description)) {
@@ -85,6 +90,13 @@ const parseEmployerName = (employerName: unknown): string => {
     return employerName;
 };
 
+const parseCriteria = (criteria: unknown): string => {
+    if (!criteria || !isString(criteria)) {
+        throw new Error("Incorrect or missing criteria");
+    }
+    return criteria;
+};
+
 const parseDiagnosisCodes = (object: unknown): Array<DiagnosesType["code"]> => {
     if (
         !object ||
@@ -98,7 +110,9 @@ const parseDiagnosisCodes = (object: unknown): Array<DiagnosesType["code"]> => {
     return object.diagnosisCodes as Array<DiagnosesType["code"]>;
 };
 
-const toNewPatientRecordEntry = (object: unknown): NewPatientRecordEntry => {
+export const toNewPatientRecordEntry = (
+    object: unknown
+): NewPatientRecordEntry => {
     if (!object || typeof object !== "object") {
         throw new Error("Object is not defined");
     }
@@ -138,20 +152,62 @@ const toNewPatientRecordEntry = (object: unknown): NewPatientRecordEntry => {
                     return newPatientRecord;
                 } else {
                     throw new Error(
-                        `OccupationalHealthcare 'employerName' needs to be defined`
+                        `OccupationalHealthcare type 'employerName' needs to be defined`
                     );
                 }
 
-                break;
             case "Hospital":
-                console.log("Hospital");
-                break;
+                if (
+                    "discharge" in object &&
+                    typeof object.discharge === "object" &&
+                    object.discharge &&
+                    "date" in object.discharge &&
+                    "criteria" in object.discharge
+                ) {
+                    const newPatientRecord: NewPatientRecordEntry = {
+                        type: object.type,
+                        description: parseDescription(object.description),
+                        date: parseDate(object.date),
+                        specialist: parseSpecialist(object.specialist),
+                        diagnosisCodes: parseDiagnosisCodes(
+                            object.diagnosisCodes
+                        ),
+                        discharge: {
+                            date: parseDate(object.discharge.date),
+                            criteria: parseCriteria(object.discharge.criteria),
+                        },
+                    };
+
+                    return newPatientRecord;
+                } else {
+                    throw new Error(
+                        `Hospital type 'discharge' needs to be defined`
+                    );
+                }
             case "HealthCheck":
-                console.log("HealthCheck");
-                break;
+                if ("healthCheckRating" in object) {
+                    const newPatientRecord: NewPatientRecordEntry = {
+                        type: object.type,
+                        description: parseDescription(object.description),
+                        date: parseDate(object.date),
+                        specialist: parseSpecialist(object.specialist),
+                        diagnosisCodes: parseDiagnosisCodes(
+                            object.diagnosisCodes
+                        ),
+                        healthCheckRating:
+                            object.healthCheckRating as HealthCheckRating,
+                    };
+
+                    return newPatientRecord;
+                } else {
+                    throw new Error(
+                        `Hospital type 'discharge' needs to be defined`
+                    );
+                }
             default:
                 throw new Error(`Type ${object.type} is invalid`);
-                break;
         }
+    } else {
+        throw new Error(`Missing base parameters `);
     }
 };

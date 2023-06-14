@@ -1,7 +1,7 @@
 // import { PatientsType } from "../types";
 // import patients from "../../data/patientsData";
 import patients from "../../data/patients-full";
-import { NoSsnPatients, NewPatient, PatientsType, Entry } from "../types";
+import { NoSsnPatients, NewPatient, PatientsType } from "../types";
 import { v1 as uuid } from "uuid";
 // const getPatients = (): PatientsType[] => {
 //     return patients;

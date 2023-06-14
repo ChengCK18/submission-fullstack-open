@@ -36,4 +36,28 @@ router.post("/", (req, res) => {
     }
 });
 
+router.post("/:id/entries", (req, res) => {
+    try {
+        const patientId = req.params.id;
+        if (patientId) {
+            const result = patientsService.getSpecificPatient(patientId);
+            if (result !== undefined) {
+                // TODO
+                //1. check all params validity. Create new util toNewPatientRecordEntry()
+                //2. call patientservice.addPatientEntry()
+            } else {
+                res.status(404).end();
+            }
+        } else {
+            res.status(400);
+        }
+    } catch (error: unknown) {
+        let errorMessage = "Something went wrong.";
+        if (error instanceof Error) {
+            errorMessage += " Error: " + error.message;
+        }
+        res.status(400).send(errorMessage);
+    }
+});
+
 export default router;

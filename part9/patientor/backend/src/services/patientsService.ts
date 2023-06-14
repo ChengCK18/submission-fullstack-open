@@ -1,8 +1,7 @@
 // import { PatientsType } from "../types";
 // import patients from "../../data/patientsData";
 import patients from "../../data/patients-full";
-import { NoSsnPatients, NewPatient, PatientsType } from "../types";
-
+import { NoSsnPatients, NewPatient, PatientsType, Entry } from "../types";
 import { v1 as uuid } from "uuid";
 // const getPatients = (): PatientsType[] => {
 //     return patients;
@@ -35,8 +34,29 @@ const addPatient = (entry: NewPatient): PatientsType => {
     return newPatientEntry;
 };
 
+// const addPatientEntry = (entry: Entry): Entry => {
+//     if (entry.type) {
+//         const newId: string = uuid();
+//         switch (entry.type) {
+//             case "OccupationalHealthcare":
+//                 console.log("OccupationalHealthcare");
+//                 break;
+//             case "Hospital":
+//                 console.log("Hospital");
+//                 break;
+//             case "HealthCheck":
+//                 console.log("HealthCheck");
+//                 break;
+//             default:
+//                 console.log("Invalid entry type");
+//                 break;
+//         }
+//     }
+// };
+
 export default {
     getPatients,
     addPatient,
     getSpecificPatient,
+    //addPatientEntry,
 };

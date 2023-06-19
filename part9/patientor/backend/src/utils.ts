@@ -188,14 +188,19 @@ export const toNewPatientRecordEntry = (
                     );
                 }
             case "HealthCheck":
-                if ("healthCheckRating" in object) {
+                if (
+                    "healthCheckRating" in object &&
+                    typeof object.healthCheckRating === "number" &&
+                    Object.values(HealthCheckRating).includes(
+                        object.healthCheckRating
+                    )
+                ) {
                     const newPatientRecord: NewPatientRecordEntry = {
                         type: object.type,
                         description: parseDescription(object.description),
                         date: parseDate(object.date),
                         specialist: parseSpecialist(object.specialist),
-                        healthCheckRating:
-                            object.healthCheckRating as HealthCheckRating, //TODO, remove assertion and verify data
+                        healthCheckRating: object.healthCheckRating, //TODO, remove assertion and verify data
                     };
 
                     return newPatientRecord;

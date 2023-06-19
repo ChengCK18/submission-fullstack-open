@@ -9,7 +9,6 @@ interface BaseEntry {
     description: string;
     date: string;
     specialist: string;
-    diagnosisCodes?: Array<DiagnosesType["code"]>;
 }
 
 export interface OccupationalHealthcareEntry extends BaseEntry {
@@ -19,6 +18,7 @@ export interface OccupationalHealthcareEntry extends BaseEntry {
         startDate: string;
         endDate: string;
     };
+    diagnosisCodes?: Array<DiagnosesType["code"]>;
 }
 
 export interface HospitalEntry extends BaseEntry {
@@ -27,6 +27,7 @@ export interface HospitalEntry extends BaseEntry {
         date: string;
         criteria: string;
     };
+    diagnosisCodes?: Array<DiagnosesType["code"]>;
 }
 
 export enum HealthCheckRating {

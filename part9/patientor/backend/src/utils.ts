@@ -116,16 +116,18 @@ export const toNewPatientRecordEntry = (
     if (!object || typeof object !== "object") {
         throw new Error("Object is not defined");
     }
+
+    // console.log(object);
+
     if (
         "description" in object &&
         "date" in object &&
         "specialist" in object &&
-        "diagnosisCodes" in object &&
         "type" in object
     ) {
         switch (object.type) {
             case "OccupationalHealthcare":
-                if ("employerName" in object) {
+                if ("employerName" in object && "diagnosisCodes" in object) {
                     const newPatientRecord: NewPatientRecordEntry = {
                         type: object.type,
                         description: parseDescription(object.description),
@@ -162,7 +164,8 @@ export const toNewPatientRecordEntry = (
                     typeof object.discharge === "object" &&
                     object.discharge &&
                     "date" in object.discharge &&
-                    "criteria" in object.discharge
+                    "criteria" in object.discharge &&
+                    "diagnosisCodes" in object
                 ) {
                     const newPatientRecord: NewPatientRecordEntry = {
                         type: object.type,
@@ -191,11 +194,8 @@ export const toNewPatientRecordEntry = (
                         description: parseDescription(object.description),
                         date: parseDate(object.date),
                         specialist: parseSpecialist(object.specialist),
-                        diagnosisCodes: parseDiagnosisCodes(
-                            object.diagnosisCodes
-                        ),
                         healthCheckRating:
-                            object.healthCheckRating as HealthCheckRating,
+                            object.healthCheckRating as HealthCheckRating, //TODO, remove assertion and verify data
                     };
 
                     return newPatientRecord;

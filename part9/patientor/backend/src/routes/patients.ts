@@ -1,6 +1,6 @@
 import express from "express";
 import patientsService from "../services/patientsService";
-import { toNewPatientEntry } from "../utils";
+import { toNewPatientEntry, toNewPatientRecordEntry } from "../utils";
 const router = express.Router();
 
 router.get("/", (_req, res) => {
@@ -42,9 +42,13 @@ router.post("/:id/entries", (req, res) => {
         if (patientId) {
             const result = patientsService.getSpecificPatient(patientId);
             if (result !== undefined) {
-                // TODO
-                //1. check all params validity. Create new util toNewPatientRecordEntry()
-                //2. call patientservice.addPatientEntry()
+                const parsedEntry = toNewPatientRecordEntry(req.body);
+                const addedEntry = patientsService.addPatientEntry(
+                    parsedEntry,
+                    patientId
+                );
+
+                res.json(addedEntry);
             } else {
                 res.status(404).end();
             }

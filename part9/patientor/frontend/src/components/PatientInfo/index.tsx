@@ -11,6 +11,7 @@ import {
     Divider,
 } from "@mui/material";
 
+import PatientEntryForm from "../PatientEntryForm";
 import EntryDetails from "../EntryDetails";
 
 const PatientInfo = () => {
@@ -64,7 +65,7 @@ const PatientInfo = () => {
         return <div>{notification}</div>;
     }
 
-    if (patientInfo !== undefined) {
+    if (patientInfo !== undefined && match) {
         console.log(patientInfo.entries);
         return (
             <div>
@@ -99,6 +100,7 @@ const PatientInfo = () => {
                 <br />
                 <br />
                 <br />
+                <PatientEntryForm patientId={match.params.id as string} />
                 <Divider>
                     <Chip label="ENTRIES" />
                 </Divider>

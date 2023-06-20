@@ -1,9 +1,12 @@
 import { useState } from "react";
 import patientService from "../../services/patients";
 import { NewPatientRecordEntry } from "../../types";
-
+import { Dispatch, SetStateAction } from "react";
+import { Patient } from "../../types";
 interface HospitalFormProps {
     patientId: string;
+    reload: boolean;
+    setReload: Dispatch<SetStateAction<boolean>>;
 }
 
 const HospitalForm = (props: HospitalFormProps) => {
@@ -18,7 +21,7 @@ const HospitalForm = (props: HospitalFormProps) => {
     const [entryDischargeCriteria, setEntryDischargeCriteria] = useState("");
 
     const addHospitalEntry = async (event: React.SyntheticEvent) => {
-        // event.preventDefault();
+        event.preventDefault();
         const newEntry: NewPatientRecordEntry = {
             type: "Hospital",
             date: entryDate,
@@ -34,6 +37,9 @@ const HospitalForm = (props: HospitalFormProps) => {
             newEntry,
             props.patientId
         );
+        console.log("data => ", data);
+        console.log(props.reload);
+        props.setReload(!props.reload);
     };
     console.log("entryDiagnosisCodeList => ", entryDiagnosisCodeList);
     return (

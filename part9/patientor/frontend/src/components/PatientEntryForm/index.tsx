@@ -2,8 +2,12 @@ import { useState } from "react";
 import OccupationalHealthcareForm from "./OccupationalHealthcareForm";
 import HospitalForm from "./HospitalForm";
 import HealthCheckForm from "./HealthCheckForm";
+import { Dispatch, SetStateAction } from "react";
+
 interface PatientEntryFormProps {
     patientId: string;
+    reload: boolean;
+    setReload: Dispatch<SetStateAction<boolean>>;
 }
 
 const PatientEntryForm = (props: PatientEntryFormProps) => {
@@ -29,7 +33,11 @@ const PatientEntryForm = (props: PatientEntryFormProps) => {
                     <OccupationalHealthcareForm />
                 )}
                 {entryType === "Hospital" && (
-                    <HospitalForm patientId={props.patientId} />
+                    <HospitalForm
+                        patientId={props.patientId}
+                        setReload={props.setReload}
+                        reload={props.reload}
+                    />
                 )}
                 {entryType === "HealthCheck" && <HealthCheckForm />}
             </div>

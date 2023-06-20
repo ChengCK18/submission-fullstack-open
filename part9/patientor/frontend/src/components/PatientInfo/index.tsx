@@ -15,6 +15,7 @@ import PatientEntryForm from "../PatientEntryForm";
 import EntryDetails from "../EntryDetails";
 
 const PatientInfo = () => {
+    const [reload, setReload] = useState(true);
     const [patientInfo, setPatientInfo] = useState<Patient | undefined>();
     const [diagnosesDesc, setDianosesDesc] = useState<
         Diagnoses[] | undefined
@@ -26,8 +27,8 @@ const PatientInfo = () => {
     useEffect(() => {
         getPatientInfo();
         getDiagnosesInit();
-    }, []);
-
+    }, [reload]);
+    console.log("PatientInfo rerendereddddd");
     const getPatientInfo = async () => {
         if (
             match !== undefined &&
@@ -100,7 +101,12 @@ const PatientInfo = () => {
                 <br />
                 <br />
                 <br />
-                <PatientEntryForm patientId={match.params.id as string} />
+                {reload ? "hye" : "mno"}
+                <PatientEntryForm
+                    patientId={match.params.id as string}
+                    reload={reload}
+                    setReload={setReload}
+                />
                 <Divider>
                     <Chip label="ENTRIES" />
                 </Divider>

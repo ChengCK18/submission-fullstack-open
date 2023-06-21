@@ -39,7 +39,13 @@ const PatientEntryForm = (props: PatientEntryFormProps) => {
                         reload={props.reload}
                     />
                 )}
-                {entryType === "HealthCheck" && <HealthCheckForm />}
+                {entryType === "HealthCheck" && (
+                    <HealthCheckForm
+                        patientId={props.patientId}
+                        setReload={props.setReload}
+                        reload={props.reload}
+                    />
+                )}
             </div>
         </div>
     );

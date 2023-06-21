@@ -30,7 +30,11 @@ const PatientEntryForm = (props: PatientEntryFormProps) => {
                     <option value="HealthCheck">HealthCheck</option>
                 </select>
                 {entryType === "OccupationalHealthcare" && (
-                    <OccupationalHealthcareForm />
+                    <OccupationalHealthcareForm
+                        patientId={props.patientId}
+                        setReload={props.setReload}
+                        reload={props.reload}
+                    />
                 )}
                 {entryType === "Hospital" && (
                     <HospitalForm

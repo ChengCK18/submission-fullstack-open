@@ -25,6 +25,16 @@ const EntryOccupationalHealthCare: React.FC<
             <h3>{entry.date}</h3>
             <div>{entry.description}</div>
             <br />
+            {entry.sickLeave && (
+                <div>
+                    <div>
+                        <b>Sick Leave</b>
+                    </div>
+                    <div>Start: {entry.sickLeave.startDate}</div>
+                    <div>End: {entry.sickLeave.endDate}</div>
+                </div>
+            )}
+            <br />
             <div>
                 <b>Diagnosed by: {entry.specialist}</b>
             </div>

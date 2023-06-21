@@ -67,7 +67,6 @@ const PatientInfo = () => {
     }
 
     if (patientInfo !== undefined && match) {
-        console.log(patientInfo.entries);
         return (
             <div>
                 <Table>
@@ -101,7 +100,7 @@ const PatientInfo = () => {
                 <br />
                 <br />
                 <br />
-                {reload ? "hye" : "mno"}
+
                 <PatientEntryForm
                     patientId={match.params.id as string}
                     reload={reload}

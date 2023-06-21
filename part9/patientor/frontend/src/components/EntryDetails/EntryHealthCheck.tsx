@@ -40,7 +40,9 @@ const EntryHealthCheck: React.FC<EntryHealthCheckProps> = (props) => {
                 {healthRatingHeart.map((health) => health)}
                 {healthRatingEmptyHeart.map((health) => health)}
             </div>
-            <div>Diagnosed by: {entry.specialist}</div>
+            <div>
+                <b>Diagnosed by: {entry.specialist}</b>
+            </div>
         </Box>
     );
 };

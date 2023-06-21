@@ -2,7 +2,7 @@ import { useState } from "react";
 import patientService from "../../services/patients";
 import { NewPatientRecordEntry } from "../../types";
 import { Dispatch, SetStateAction } from "react";
-import { Patient } from "../../types";
+
 interface HospitalFormProps {
     patientId: string;
     reload: boolean;

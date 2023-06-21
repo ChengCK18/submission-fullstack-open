@@ -26,11 +26,11 @@ const EntryHospitalEntry: React.FC<EntryHospitalEntryProps> = (props) => {
 
             <LogoutSharpIcon style={{ fill: "green" }} />
             <div>
-                Discharged{"=>"}
+                Discharged:
                 {entry.discharge.date}
             </div>
             <div>
-                Reason{"=>"}
+                Reason:
                 {entry.discharge.criteria}
             </div>
             <br />

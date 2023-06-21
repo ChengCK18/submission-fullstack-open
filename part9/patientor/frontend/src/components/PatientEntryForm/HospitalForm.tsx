@@ -1,12 +1,12 @@
 import { useState } from "react";
 import patientService from "../../services/patients";
 import { NewPatientRecordEntry } from "../../types";
-import { Dispatch, SetStateAction } from "react";
+import { AxiosError } from "axios";
 
 interface HospitalFormProps {
     patientId: string;
-    reload: boolean;
-    setReload: Dispatch<SetStateAction<boolean>>;
+
+    showNotification: (type: string, message: string) => void;
 }
 
 const HospitalForm = (props: HospitalFormProps) => {
@@ -33,23 +33,36 @@ const HospitalForm = (props: HospitalFormProps) => {
                 criteria: entryDischargeCriteria,
             },
         };
-        const data = await patientService.addPatientEntry(
-            newEntry,
-            props.patientId
-        );
-        console.log("data => ", data);
-        console.log(props.reload);
-        props.setReload(!props.reload);
+        try {
+            const data = await patientService.addPatientEntry(
+                newEntry,
+                props.patientId
+            );
+
+            props.showNotification(
+                "success",
+                `Entry successfully added to patient record. ${data.id}`
+            );
+            // props.setReload(!props.reload);
+        } catch (error) {
+            let errorMessage = "Entry failed due to missing field";
+            if (error instanceof AxiosError) {
+                errorMessage = error.response?.data;
+                props.showNotification("error", errorMessage);
+            }
+
+            console.log(errorMessage);
+        }
     };
-    console.log("entryDiagnosisCodeList => ", entryDiagnosisCodeList);
+
     return (
         <div>
-            Hospital Form
+            <b>Hospital Form</b>
             <form onSubmit={addHospitalEntry}>
                 <table>
                     <tbody>
                         <tr>
-                            <td>Date</td>
+                            <td>Date*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -62,7 +75,7 @@ const HospitalForm = (props: HospitalFormProps) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Specialist</td>
+                            <td>Specialist*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -109,7 +122,7 @@ const HospitalForm = (props: HospitalFormProps) => {
                         </tr>
 
                         <tr>
-                            <td>Description</td>
+                            <td>Description*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -122,7 +135,7 @@ const HospitalForm = (props: HospitalFormProps) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Discharge</td>
+                            <td>Discharge*</td>
                         </tr>
                         <tr>
                             <td>

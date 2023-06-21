@@ -41,7 +41,6 @@ const addPatientEntry = async (
         `${apiBaseUrl}/patients/${patientId}/entries`,
         object
     );
-
     return data;
 };
 

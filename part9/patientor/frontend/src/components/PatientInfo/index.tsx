@@ -10,25 +10,40 @@ import {
     Chip,
     Divider,
 } from "@mui/material";
-
+import Alert, { AlertColor } from "@mui/material/Alert";
 import PatientEntryForm from "../PatientEntryForm";
 import EntryDetails from "../EntryDetails";
 
 const PatientInfo = () => {
-    const [reload, setReload] = useState(true);
     const [patientInfo, setPatientInfo] = useState<Patient | undefined>();
+    const [notifStyle, setNotifStyle] = useState<AlertColor>("info");
     const [diagnosesDesc, setDianosesDesc] = useState<
         Diagnoses[] | undefined
     >();
 
-    const [notification, setNotification] = useState<string>();
+    const [notification, setNotification] = useState<string>("");
     const match = useMatch("/:id");
 
     useEffect(() => {
         getPatientInfo();
         getDiagnosesInit();
-    }, [reload]);
-    console.log("PatientInfo rerendereddddd");
+    }, [notification]);
+
+    const showNotification = (type: string, message: string) => {
+        if (type === "success") {
+            setNotifStyle("success");
+        }
+        if (type === "error") {
+            setNotifStyle("error");
+        }
+
+        console.log("nitif => ", notifStyle);
+        setNotification(message);
+        setTimeout(() => {
+            setNotification("");
+        }, 5000);
+    };
+
     const getPatientInfo = async () => {
         if (
             match !== undefined &&
@@ -62,9 +77,9 @@ const PatientInfo = () => {
         }
     };
 
-    if (notification) {
-        return <div>{notification}</div>;
-    }
+    // if (notification) {
+    //     return <div>{notification}</div>;
+    // }
 
     if (patientInfo !== undefined && match) {
         return (
@@ -100,11 +115,14 @@ const PatientInfo = () => {
                 <br />
                 <br />
                 <br />
-
+                {notification && (
+                    <div>
+                        <Alert severity={notifStyle}>{notification}</Alert>
+                    </div>
+                )}
                 <PatientEntryForm
                     patientId={match.params.id as string}
-                    reload={reload}
-                    setReload={setReload}
+                    showNotification={showNotification}
                 />
                 <Divider>
                     <Chip label="ENTRIES" />

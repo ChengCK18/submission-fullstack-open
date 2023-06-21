@@ -42,12 +42,14 @@ router.post("/:id/entries", (req, res) => {
         if (patientId) {
             const result = patientsService.getSpecificPatient(patientId);
             if (result !== undefined) {
+                console.log("1");
                 const parsedEntry = toNewPatientRecordEntry(req.body);
+                console.log("2");
                 const addedEntry = patientsService.addPatientEntry(
                     parsedEntry,
                     patientId
                 );
-
+                console.log("3");
                 res.json(addedEntry);
             } else {
                 res.status(404).end();
@@ -57,8 +59,10 @@ router.post("/:id/entries", (req, res) => {
         }
     } catch (error: unknown) {
         let errorMessage = "Something went wrong.";
+
         if (error instanceof Error) {
             errorMessage += " Error: " + error.message;
+            console.log("yerrr ", error);
         }
         res.status(400).send(errorMessage);
     }

@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Dispatch, SetStateAction } from "react";
 import { NewPatientRecordEntry } from "../../types";
 import { HealthCheckRating } from "../../types";
 import patientService from "../../services/patients";
-
+import { AxiosError } from "axios";
 interface HealthCheckFormProps {
     patientId: string;
-    reload: boolean;
-    setReload: Dispatch<SetStateAction<boolean>>;
+
+    showNotification: (type: string, message: string) => void;
 }
 
 const HealthCheckForm = (props: HealthCheckFormProps) => {
@@ -27,22 +26,35 @@ const HealthCheckForm = (props: HealthCheckFormProps) => {
             description: entryDescription,
             healthCheckRating: entryHealthRating,
         };
-        const data = await patientService.addPatientEntry(
-            newEntry,
-            props.patientId
-        );
+        try {
+            const data = await patientService.addPatientEntry(
+                newEntry,
+                props.patientId
+            );
 
-        props.setReload(!props.reload);
+            props.showNotification(
+                "success",
+                `Entry successfully added to patient record. ${data.id}`
+            );
+        } catch (error) {
+            let errorMessage = "Entry failed due to missing field";
+            if (error instanceof AxiosError) {
+                errorMessage = error.response?.data;
+                props.showNotification("error", errorMessage);
+            }
+
+            console.log(errorMessage);
+        }
     };
 
     return (
         <div>
-            HealthCheckForm Form Hospital Form
+            <b>Health Check Form</b>
             <form onSubmit={addHealthCheckEntry}>
                 <table>
                     <tbody>
                         <tr>
-                            <td>Date</td>
+                            <td>Date*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -55,7 +67,7 @@ const HealthCheckForm = (props: HealthCheckFormProps) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Specialist</td>
+                            <td>Specialist*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -69,7 +81,7 @@ const HealthCheckForm = (props: HealthCheckFormProps) => {
                         </tr>
 
                         <tr>
-                            <td>Description</td>
+                            <td>Description*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -82,7 +94,7 @@ const HealthCheckForm = (props: HealthCheckFormProps) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Health Check Rating</td>
+                            <td>Health Check Rating*</td>
                             <td>
                                 <input
                                     type="radio"

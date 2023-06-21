@@ -23,7 +23,7 @@ const isDate = (dateOfBirth: string): boolean => {
 
 const parseDate = (dateOfBirth: unknown): string => {
     if (!dateOfBirth || !isString(dateOfBirth) || !isDate(dateOfBirth)) {
-        throw new Error("Incorrect or missing date: " + dateOfBirth);
+        throw new Error("Missing date " + dateOfBirth);
     }
     return dateOfBirth;
 };
@@ -71,28 +71,28 @@ export const toNewPatientEntry = (object: unknown): NewPatient => {
 
 const parseDescription = (description: unknown): string => {
     if (!description || !isString(description)) {
-        throw new Error("Incorrect or missing description");
+        throw new Error("Missing description");
     }
     return description;
 };
 
 const parseSpecialist = (specialist: unknown): string => {
     if (!specialist || !isString(specialist)) {
-        throw new Error("Incorrect or missing specialist");
+        throw new Error("Missing specialist");
     }
     return specialist;
 };
 
 const parseEmployerName = (employerName: unknown): string => {
     if (!employerName || !isString(employerName)) {
-        throw new Error("Incorrect or missing employerName");
+        throw new Error("Missing employerName");
     }
     return employerName;
 };
 
 const parseCriteria = (criteria: unknown): string => {
     if (!criteria || !isString(criteria)) {
-        throw new Error("Incorrect or missing criteria");
+        throw new Error("Missing criteria");
     }
     return criteria;
 };

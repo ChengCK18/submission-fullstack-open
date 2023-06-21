@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { NewPatientRecordEntry } from "../../types";
-import { Dispatch, SetStateAction } from "react";
 import patientService from "../../services/patients";
+import { AxiosError } from "axios";
 
 interface OccupationalHealthcareFormProps {
     patientId: string;
-    reload: boolean;
-    setReload: Dispatch<SetStateAction<boolean>>;
+
+    showNotification: (type: string, message: string) => void;
 }
 
 const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
@@ -37,22 +37,36 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                 endDate: entrySickLeaveEndDate,
             },
         };
-        const data = await patientService.addPatientEntry(
-            newEntry,
-            props.patientId
-        );
 
-        props.setReload(!props.reload);
+        try {
+            const data = await patientService.addPatientEntry(
+                newEntry,
+                props.patientId
+            );
+
+            props.showNotification(
+                "success",
+                `Entry successfully added to patient record. ${data.id}`
+            );
+        } catch (error) {
+            let errorMessage = "Entry failed due to missing field";
+            if (error instanceof AxiosError) {
+                errorMessage = error.response?.data;
+                props.showNotification("error", errorMessage);
+            }
+
+            console.log(errorMessage);
+        }
     };
 
     return (
         <div>
-            Occupational Healthcare Form
+            <b>Occupational Healthcare Form</b>
             <form onSubmit={addOccupationalHealthcareEntry}>
                 <table>
                     <tbody>
                         <tr>
-                            <td>Date</td>
+                            <td>Date*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -65,7 +79,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Specialist</td>
+                            <td>Specialist*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -78,7 +92,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Employer</td>
+                            <td>Employer*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -125,7 +139,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                         </tr>
 
                         <tr>
-                            <td>Description</td>
+                            <td>Description*</td>
                             <td>
                                 <input
                                     onChange={(e) => {
@@ -142,7 +156,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                         </tr>
                         <tr>
                             <td>
-                                Start
+                                Start*
                                 <input
                                     onChange={(e) => {
                                         setEntrySickLeaveStartDate(
@@ -155,7 +169,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                                 />
                             </td>
                             <td>
-                                End
+                                End*
                                 <input
                                     onChange={(e) => {
                                         setEntrySickLeaveEndDate(

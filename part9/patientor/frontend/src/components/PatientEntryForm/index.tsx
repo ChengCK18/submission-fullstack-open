@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import OccupationalHealthcareForm from "./OccupationalHealthcareForm";
 import HospitalForm from "./HospitalForm";
 import HealthCheckForm from "./HealthCheckForm";
+import patientService from "../../services/patients";
+import { Diagnoses } from "../../types";
 
 interface PatientEntryFormProps {
     patientId: string;
@@ -11,12 +13,26 @@ interface PatientEntryFormProps {
 
 const PatientEntryForm = (props: PatientEntryFormProps) => {
     const [entryType, setEntryType] = useState("OccupationalHealthcare");
+    const diagnosisCodesRef = useRef<Diagnoses[]>([]);
+
+    useEffect(() => {
+        const fetchDiagnosisCodes = async () => {
+            try {
+                const result = await patientService.getDiagnoses();
+                diagnosisCodesRef.current = result;
+            } catch (error) {
+                console.log("Failed to fetch diagnosis codes");
+            }
+        };
+
+        fetchDiagnosisCodes();
+    }, []);
 
     return (
         <div>
             Patient Entry Form
             <div>
-                Type{"  "}
+                Type
                 <select
                     onChange={(event) => {
                         setEntryType(event.target.value);
@@ -32,12 +48,14 @@ const PatientEntryForm = (props: PatientEntryFormProps) => {
                     <OccupationalHealthcareForm
                         patientId={props.patientId}
                         showNotification={props.showNotification}
+                        diagnosisCodes={diagnosisCodesRef.current}
                     />
                 )}
                 {entryType === "Hospital" && (
                     <HospitalForm
                         patientId={props.patientId}
                         showNotification={props.showNotification}
+                        diagnosisCodes={diagnosisCodesRef.current}
                     />
                 )}
                 {entryType === "HealthCheck" && (

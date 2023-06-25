@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { NewPatientRecordEntry } from "../../types";
+import { Diagnoses, NewPatientRecordEntry } from "../../types";
 import patientService from "../../services/patients";
 import { AxiosError } from "axios";
 
 interface OccupationalHealthcareFormProps {
     patientId: string;
-
     showNotification: (type: string, message: string) => void;
+    diagnosisCodes: Diagnoses[];
 }
 
 const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {

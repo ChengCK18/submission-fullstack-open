@@ -1,12 +1,15 @@
 import { useState } from "react";
 import patientService from "../../services/patients";
-import { NewPatientRecordEntry } from "../../types";
+import { NewPatientRecordEntry, Diagnoses } from "../../types";
 import { AxiosError } from "axios";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 interface HospitalFormProps {
     patientId: string;
-
     showNotification: (type: string, message: string) => void;
+    diagnosisCodes: Diagnoses[];
 }
 
 const HospitalForm = (props: HospitalFormProps) => {

@@ -98,16 +98,12 @@ const parseCriteria = (criteria: unknown): string => {
 };
 
 const parseDiagnosisCodes = (object: unknown): Array<DiagnosesType["code"]> => {
-    if (
-        !object ||
-        typeof object !== "object" ||
-        !("diagnosisCodes" in object)
-    ) {
+    if (!object || typeof object !== "object") {
         // we will just trust the data to be in correct form
         return [] as Array<DiagnosesType["code"]>;
     }
 
-    return object.diagnosisCodes as Array<DiagnosesType["code"]>;
+    return object as Array<DiagnosesType["code"]>;
 };
 
 export const toNewPatientRecordEntry = (

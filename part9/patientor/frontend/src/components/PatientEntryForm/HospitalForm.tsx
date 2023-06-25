@@ -2,10 +2,7 @@ import { useState } from "react";
 import patientService from "../../services/patients";
 import { NewPatientRecordEntry, Diagnoses } from "../../types";
 import { AxiosError } from "axios";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-
+import DiagnosisCodeMultipleSelect from "./DiagnosisCodeEntry";
 interface HospitalFormProps {
     patientId: string;
     showNotification: (type: string, message: string) => void;
@@ -15,10 +12,8 @@ interface HospitalFormProps {
 const HospitalForm = (props: HospitalFormProps) => {
     const [entryDate, setEntryDate] = useState("");
     const [entrySpecialist, setEntrySpecialist] = useState("");
-    const [entryDiagnosisCode, setEntryDiagnosisCode] = useState("");
-    const [entryDiagnosisCodeList, setEntryDiagnosisCodeList] = useState<
-        string[]
-    >([]);
+    const [entryDiagnosisCode, setEntryDiagnosisCode] = useState<string[]>([]);
+
     const [entryDescription, setEntryDescription] = useState("");
     const [entryDischargeDate, setEntryDischargeDate] = useState("");
     const [entryDischargeCriteria, setEntryDischargeCriteria] = useState("");
@@ -29,7 +24,7 @@ const HospitalForm = (props: HospitalFormProps) => {
             type: "Hospital",
             date: entryDate,
             specialist: entrySpecialist,
-            diagnosisCodes: entryDiagnosisCodeList,
+            diagnosisCodes: entryDiagnosisCode,
             description: entryDescription,
             discharge: {
                 date: entryDischargeDate,
@@ -60,8 +55,12 @@ const HospitalForm = (props: HospitalFormProps) => {
 
     return (
         <div>
-            <b>Hospital Form</b>
             <form onSubmit={addHospitalEntry}>
+                <DiagnosisCodeMultipleSelect
+                    diagnosisCodes={props.diagnosisCodes}
+                    entryDiagnosisCode={entryDiagnosisCode}
+                    setEntryDiagnosisCode={setEntryDiagnosisCode}
+                />
                 <table>
                     <tbody>
                         <tr>
@@ -88,39 +87,6 @@ const HospitalForm = (props: HospitalFormProps) => {
                                     value={entrySpecialist}
                                     placeholder="Specialist"
                                 />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Diagnosis code</td>
-                            <td>
-                                <input
-                                    onChange={(e) => {
-                                        setEntryDiagnosisCode(e.target.value);
-                                    }}
-                                    type="text"
-                                    value={entryDiagnosisCode}
-                                    placeholder="Diagnosis code"
-                                />
-                                <button
-                                    onClick={() => {
-                                        let newList = entryDiagnosisCodeList;
-                                        newList.push(entryDiagnosisCode);
-
-                                        console.log("yeah", newList);
-                                        setEntryDiagnosisCodeList(newList);
-                                        setEntryDiagnosisCode("");
-                                    }}
-                                    type="button"
-                                >
-                                    Add code
-                                </button>
-                            </td>
-                            <td>
-                                {entryDiagnosisCodeList.map((item) => (
-                                    <span key={`diagCode_${item}`}>
-                                        {item}{" "}
-                                    </span>
-                                ))}
                             </td>
                         </tr>
 

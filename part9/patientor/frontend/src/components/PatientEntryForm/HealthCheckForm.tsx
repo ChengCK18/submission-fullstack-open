@@ -49,7 +49,6 @@ const HealthCheckForm = (props: HealthCheckFormProps) => {
 
     return (
         <div>
-            <b>Health Check Form</b>
             <form onSubmit={addHealthCheckEntry}>
                 <table>
                     <tbody>

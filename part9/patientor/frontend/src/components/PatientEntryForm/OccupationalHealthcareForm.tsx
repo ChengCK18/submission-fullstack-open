@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Diagnoses, NewPatientRecordEntry } from "../../types";
 import patientService from "../../services/patients";
 import { AxiosError } from "axios";
+import DiagnosisCodeMultipleSelect from "./DiagnosisCodeEntry";
+import { FormControl } from "@mui/material";
 
 interface OccupationalHealthcareFormProps {
     patientId: string;
@@ -12,11 +14,10 @@ interface OccupationalHealthcareFormProps {
 const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
     const [entryDate, setEntryDate] = useState("");
     const [entrySpecialist, setEntrySpecialist] = useState("");
-    const [entryDiagnosisCode, setEntryDiagnosisCode] = useState("");
+
+    const [entryDiagnosisCode, setEntryDiagnosisCode] = useState<string[]>([]);
+
     const [entryEmployerName, setEntryEmployerName] = useState("");
-    const [entryDiagnosisCodeList, setEntryDiagnosisCodeList] = useState<
-        string[]
-    >([]);
     const [entryDescription, setEntryDescription] = useState("");
     const [entrySickLeaveStartDate, setEntrySickLeaveStartDate] = useState("");
     const [entrySickLeaveEndDate, setEntrySickLeaveEndDate] = useState("");
@@ -30,7 +31,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
             date: entryDate,
             specialist: entrySpecialist,
             employerName: entryEmployerName,
-            diagnosisCodes: entryDiagnosisCodeList,
+            diagnosisCodes: entryDiagnosisCode,
             description: entryDescription,
             sickLeave: {
                 startDate: entrySickLeaveStartDate,
@@ -54,15 +55,18 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                 errorMessage = error.response?.data;
                 props.showNotification("error", errorMessage);
             }
-
-            console.log(errorMessage);
         }
     };
+    console.log(entryDiagnosisCode, "entryDiagnosisCode");
 
     return (
         <div>
-            <b>Occupational Healthcare Form</b>
             <form onSubmit={addOccupationalHealthcareEntry}>
+                <DiagnosisCodeMultipleSelect
+                    diagnosisCodes={props.diagnosisCodes}
+                    entryDiagnosisCode={entryDiagnosisCode}
+                    setEntryDiagnosisCode={setEntryDiagnosisCode}
+                />
                 <table>
                     <tbody>
                         <tr>
@@ -91,6 +95,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                                 />
                             </td>
                         </tr>
+
                         <tr>
                             <td>Employer*</td>
                             <td>
@@ -102,39 +107,6 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                                     value={entryEmployerName}
                                     placeholder="Employer"
                                 />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Diagnosis code</td>
-                            <td>
-                                <input
-                                    onChange={(e) => {
-                                        setEntryDiagnosisCode(e.target.value);
-                                    }}
-                                    type="text"
-                                    value={entryDiagnosisCode}
-                                    placeholder="Diagnosis code"
-                                />
-                                <button
-                                    onClick={() => {
-                                        let newList = entryDiagnosisCodeList;
-                                        newList.push(entryDiagnosisCode);
-
-                                        console.log("yeah", newList);
-                                        setEntryDiagnosisCodeList(newList);
-                                        setEntryDiagnosisCode("");
-                                    }}
-                                    type="button"
-                                >
-                                    Add code
-                                </button>
-                            </td>
-                            <td>
-                                {entryDiagnosisCodeList.map((item) => (
-                                    <span key={`diagCode_${item}`}>
-                                        {item}{" "}
-                                    </span>
-                                ))}
                             </td>
                         </tr>
 
@@ -184,6 +156,7 @@ const OccupationalHealthcareForm = (props: OccupationalHealthcareFormProps) => {
                         </tr>
                     </tbody>
                 </table>
+
                 <button type="submit">Add entry</button>
             </form>
         </div>
